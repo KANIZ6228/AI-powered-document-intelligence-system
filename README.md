@@ -1,184 +1,594 @@
-# AI-Powered Document Intelligence System
+# 🤖 AI-Powered Document Intelligence System
 
-A Retrieval Augmented Generation (RAG) system that allows users to upload PDF/TXT documents, extract and process text, generate embeddings, and ask intelligent questions about document content with source attribution.
+> **Turn lengthy documents into an interactive AI knowledge base.**
 
-## Project Overview
+A full-stack **Retrieval-Augmented Generation (RAG)** application that allows users to upload PDF/TXT documents, process and index their content, and ask natural-language questions with **context-grounded answers and source attribution**.
 
-This application implements a complete RAG pipeline with:
-- **Document Processing**: Extract text from PDF and TXT files
-- **Text Chunking**: Split documents into meaningful semantic chunks
-- **Semantic Search**: Use embeddings to find relevant document sections
-- **Retrieval Augmented Generation**: Generate answers based on retrieved context
-- **Source Attribution**: Display the exact document excerpts used to answer questions
+### 🔄 How it works
 
-## Tech Stack
+**Upload → Extract → Chunk → Embed → Retrieve → Generate → Cite**
 
-### Backend
-- **Framework**: FastAPI (Python)
-- **Text Extraction**: PyMuPDF (fitz)
-- **Embeddings**: Sentence Transformers (all-MiniLM-L6-v2)
-- **Vector Database**: FAISS (CPU)
-- **LLM**: Ollama with llama3.2:3b model
-- **Text Splitting**: LangChain
+<p align="center">
 
-### Frontend
-- **Framework**: React 19 with Vite
-- **Styling**: CSS
-- **Build Tool**: Vite
+**📄 Document** → **🧠 Embeddings** → **🔎 FAISS Retrieval** → **🤖 Llama 3.2** → **💬 Answer + Sources**
 
-## Architecture & Design Decisions
+</p>
 
-### 1. **Two-Tier Architecture**
-- **Backend**: FastAPI REST API for document processing and question answering
-- **Frontend**: React SPA for user interactions
-- **Communication**: HTTP/CORS for cross-origin requests
+---
 
-### 2. **Document Processing Pipeline**
+## 🚀 Demo
+
+### 🖥️ Application Preview
+
+> Add your best application screenshot here.
+
+![Application Dashboard](screenshots/01-dashboard.png)
+
+### 🎥 Demo Video
+
+> Add your demo video link here after recording it.
+
+**[▶️ Watch the Full Demo](YOUR_VIDEO_LINK_HERE)**
+
+### 🔗 Quick Links
+
+* 🚀 **Live Demo:** `YOUR_LIVE_DEMO_LINK`
+* 🎥 **Demo Video:** `YOUR_VIDEO_LINK`
+* 📂 **Source Code:** `YOUR_GITHUB_REPOSITORY_LINK`
+* ⚡ **API Documentation:** `http://localhost:8000/docs`
+
+---
+
+# ⭐ Key Highlights
+
+| Feature                 | Description                                                      |
+| ----------------------- | ---------------------------------------------------------------- |
+| 📄 Document Processing  | Extracts text from PDF and TXT files                             |
+| ✂️ Intelligent Chunking | Splits documents into manageable contextual chunks               |
+| 🧠 Semantic Embeddings  | Converts document chunks and queries into vector representations |
+| 🔎 Semantic Retrieval   | Retrieves the most relevant document sections using FAISS        |
+| 🤖 Local LLM            | Generates answers using Llama 3.2 through Ollama                 |
+| 📚 RAG                  | Grounds responses using retrieved document context               |
+| 🔍 Source Attribution   | Displays page numbers, chunk IDs and source excerpts             |
+| 💾 Persistent Storage   | Saves FAISS index and metadata locally                           |
+| ⚡ REST API              | FastAPI backend exposes document and Q&A endpoints               |
+| 🖥️ Interactive UI      | React + Vite frontend for document interaction                   |
+
+---
+
+# 💡 Problem
+
+Searching through lengthy documents manually can be time-consuming.
+
+Traditional keyword-based search can also struggle when a user asks a question using different terminology from the original document.
+
+For example:
+
+> **"What methodology did the researchers use?"**
+
+The document may never contain the exact phrase *"what methodology did they use"*.
+
+This project addresses that problem using **semantic retrieval + Retrieval-Augmented Generation (RAG)**.
+
+---
+
+# 🎯 Solution
+
+The system transforms uploaded documents into a searchable knowledge base.
+
+Instead of asking an LLM to answer from its general knowledge, the system:
+
+1. Extracts document content
+2. Splits the content into chunks
+3. Generates vector embeddings
+4. Stores embeddings in FAISS
+5. Converts the user's question into an embedding
+6. Retrieves the most relevant document chunks
+7. Sends the retrieved context to the LLM
+8. Generates a grounded answer
+9. Returns the supporting source information
+
+This helps reduce unsupported responses and makes answers easier to verify.
+
+---
+
+# 🖥️ Screenshots
+
+## 1. Document Intelligence Dashboard
+
+![Dashboard](screenshots/01-dashboard.png)
+
+The main interface allows users to upload documents and interact with the document knowledge base.
+
+---
+
+## 2. Document Upload & Processing
+
+![Document Upload](screenshots/02-document-upload.png)
+
+Users can upload supported PDF or TXT documents for processing.
+
+The backend performs:
+
+```text
+Upload
+   ↓
+Text Extraction
+   ↓
+Text Cleaning
+   ↓
+Chunking
+   ↓
+Embedding Generation
+   ↓
+FAISS Indexing
 ```
-Upload File → Extract Text → Clean Text → Create Chunks → Generate Embeddings → Store in FAISS
+
+---
+
+## 3. AI Question Answering
+
+![Question Answering](screenshots/03-question-answer.png)
+
+Users can ask natural-language questions about the uploaded document.
+
+Example:
+
+> **What are the main objectives of this research?**
+
+The system retrieves relevant document context before generating the response.
+
+---
+
+## 4. Source Attribution
+
+![Source Attribution](screenshots/04-source-attribution.png)
+
+Each answer can be traced back to the retrieved document content.
+
+Example:
+
+```text
+📄 research_paper.pdf
+Page: 4
+Chunk: 7
+
+"The proposed methodology..."
 ```
 
-- **Extraction**: PyMuPDF for robust PDF handling; preserves page numbers
-- **Cleaning**: Regex-based whitespace normalization while preserving structure
-- **Chunking**: RecursiveCharacterTextSplitter for semantic preservation
-  - Chunk size: 800 characters with 150-character overlap
-  - Hierarchical separators preserve sentence boundaries
-  - Metadata includes chunk_id and page number for attribution
+This improves transparency and allows users to verify generated answers.
 
-### 3. **Embedding Strategy**
-- **Model**: Sentence Transformers (all-MiniLM-L6-v2)
-  - 384-dimensional embeddings
-  - Lightweight and efficient (~80MB)
-  - Excellent semantic understanding
-  - Works well without fine-tuning
-- **Indexing**: FAISS IndexFlatL2 for fast similarity search
+---
 
-### 4. **Vector Store Persistence**
-- FAISS index saved to disk (`data/vector_store/document.index`)
-- Chunk metadata persisted as JSON (`data/vector_store/chunks.json`)
-- Automatic loading on application startup to preserve indexed documents
+## 5. Backend API
 
-### 5. **LLM Integration**
-- **Local LLM**: Ollama with llama3.2:3b for privacy and performance
-- **Context-Based Generation**: LLM receives retrieved chunks + user question
-- **System Prompt**: Ensures answers are grounded in document context
-- **No Hallucination**: Model instructed to say "I don't know" for out-of-context questions
+![API Documentation](screenshots/05-api-docs.png)
 
-### 6. **Retrieval Process**
+The backend provides interactive API documentation through FastAPI Swagger UI.
+
+Available at:
+
+`http://localhost:8000/docs`
+
+---
+
+# 🎥 Demo Workflow
+
+The application follows this workflow:
+
+```text
+                 ┌──────────────────┐
+                 │      User        │
+                 └────────┬─────────┘
+                          │
+                          ▼
+                 ┌──────────────────┐
+                 │ Upload Document  │
+                 └────────┬─────────┘
+                          │
+                          ▼
+                 ┌──────────────────┐
+                 │  Text Extraction │
+                 └────────┬─────────┘
+                          │
+                          ▼
+                 ┌──────────────────┐
+                 │     Chunking     │
+                 └────────┬─────────┘
+                          │
+                          ▼
+                 ┌──────────────────┐
+                 │    Embeddings    │
+                 └────────┬─────────┘
+                          │
+                          ▼
+                 ┌──────────────────┐
+                 │   FAISS Index    │
+                 └────────┬─────────┘
+                          │
+                          │
+                    User Question
+                          │
+                          ▼
+                 ┌──────────────────┐
+                 │ Query Embedding  │
+                 └────────┬─────────┘
+                          │
+                          ▼
+                 ┌──────────────────┐
+                 │ Semantic Search  │
+                 │   Top-K Chunks   │
+                 └────────┬─────────┘
+                          │
+                          ▼
+                 ┌──────────────────┐
+                 │      Ollama      │
+                 │    Llama 3.2     │
+                 └────────┬─────────┘
+                          │
+                          ▼
+              ┌────────────────────────┐
+              │ Answer + Source Context│
+              └────────────────────────┘
 ```
-User Question → Embed Question → Search FAISS → Retrieve Top-5 Chunks → Build Context → LLM Response
+
+---
+
+# 🏗️ System Architecture
+
+The application follows a two-tier full-stack architecture.
+
+```text
+┌─────────────────────────────────────────────┐
+│                 React Frontend              │
+│                 React 19 + Vite              │
+└──────────────────────┬──────────────────────┘
+                       │ HTTP / CORS
+                       ▼
+┌─────────────────────────────────────────────┐
+│                 FastAPI Backend              │
+├─────────────────────────────────────────────┤
+│                                             │
+│  Document Processing      Question Answering│
+│          │                       │           │
+│          ▼                       ▼           │
+│      Extraction            Query Embedding  │
+│          │                       │           │
+│          ▼                       ▼           │
+│       Chunking             FAISS Search      │
+│          │                       │           │
+│          ▼                       ▼           │
+│      Embeddings             Top-K Chunks     │
+│          │                       │           │
+│          └───────────┬───────────┘           │
+│                      ▼                       │
+│                 Ollama / Llama 3.2          │
+│                      │                       │
+│                      ▼                       │
+│               Answer + Sources              │
+└─────────────────────────────────────────────┘
 ```
 
-- Top-5 most relevant chunks retrieved by cosine similarity
-- Context includes page numbers and chunk IDs for traceability
-- Source attribution embedded in response
+---
 
-## Project Structure
+# 🔄 RAG Pipeline
 
+## 1️⃣ Document Ingestion
+
+Supported files:
+
+* PDF
+* TXT
+
+PDF text is extracted using **PyMuPDF (fitz)** while preserving page information.
+
+---
+
+## 2️⃣ Text Cleaning
+
+Extracted content is normalized using whitespace and formatting cleanup while preserving useful document structure.
+
+---
+
+## 3️⃣ Text Chunking
+
+Documents are divided using LangChain's `RecursiveCharacterTextSplitter`.
+
+Current configuration:
+
+```text
+Chunk Size: 800 characters
+Overlap: 150 characters
 ```
+
+The overlap helps preserve contextual continuity between adjacent chunks.
+
+Each chunk stores metadata such as:
+
+```text
+chunk_id
+page_number
+document_name
+text
+```
+
+---
+
+## 4️⃣ Embedding Generation
+
+The project uses:
+
+**Sentence Transformers — `all-MiniLM-L6-v2`**
+
+Characteristics:
+
+* 384-dimensional embeddings
+* Lightweight
+* CPU-friendly
+* Suitable for semantic similarity search
+* Approximately 80MB model size
+
+---
+
+## 5️⃣ Vector Storage
+
+Embeddings are stored using:
+
+**FAISS — IndexFlatL2**
+
+The index is persisted locally:
+
+```text
+data/vector_store/
+├── document.index
+└── chunks.json
+```
+
+This allows the vector store to survive application restarts.
+
+---
+
+## 6️⃣ Retrieval
+
+When the user asks a question:
+
+```text
+User Question
+      ↓
+Question Embedding
+      ↓
+FAISS Similarity Search
+      ↓
+Top-5 Relevant Chunks
+      ↓
+Context Construction
+```
+
+The retrieved chunks contain page and chunk metadata for traceability.
+
+---
+
+## 7️⃣ Generation
+
+The retrieved context and user question are passed to:
+
+**Ollama → Llama 3.2:3b**
+
+The model is instructed to answer using the retrieved document context and avoid answering when sufficient evidence is unavailable.
+
+### 🛡️ Hallucination Mitigation
+
+The system does not guarantee zero hallucinations.
+
+Instead, it uses:
+
+* Retrieved document context
+* Grounded prompting
+* Source attribution
+* Out-of-context response handling
+
+to reduce unsupported answers.
+
+---
+
+# 🛠️ Tech Stack
+
+## Backend
+
+| Technology            | Purpose                      |
+| --------------------- | ---------------------------- |
+| Python                | Core backend and AI pipeline |
+| FastAPI               | REST API                     |
+| PyMuPDF               | PDF text extraction          |
+| LangChain             | Text splitting               |
+| Sentence Transformers | Embeddings                   |
+| FAISS                 | Vector similarity search     |
+| Ollama                | Local LLM inference          |
+| Llama 3.2:3b          | Answer generation            |
+| Pytest                | Testing                      |
+
+## Frontend
+
+| Technology | Purpose                         |
+| ---------- | ------------------------------- |
+| React 19   | User interface                  |
+| Vite       | Frontend development/build tool |
+| CSS        | UI styling                      |
+
+---
+
+# 🧠 Engineering Highlights
+
+### 🔍 Semantic Retrieval
+
+The system uses vector embeddings instead of relying solely on keyword matching.
+
+### 📚 Retrieval-Augmented Generation
+
+LLM responses are generated using retrieved document context.
+
+### 🔎 Source Attribution
+
+Answers can be traced to specific document pages and chunks.
+
+### 💾 Persistent Vector Store
+
+FAISS indexes and metadata are stored locally and reloaded when the application starts.
+
+### 🤖 Local LLM Inference
+
+Ollama enables local model execution without requiring external LLM API calls.
+
+### ⚡ REST API Architecture
+
+The React frontend communicates with the FastAPI backend through HTTP endpoints.
+
+### 🧩 Modular Backend
+
+Document processing, chunking, embeddings, retrieval, vector storage and LLM communication are separated into dedicated services.
+
+---
+
+# 📊 Performance
+
+> Replace the values below with measurements from your own machine.
+
+| Operation            |             Result |
+| -------------------- | -----------------: |
+| Embedding Generation | `YOUR_MEASUREMENT` |
+| Vector Search        | `YOUR_MEASUREMENT` |
+| End-to-End Q&A       | `YOUR_MEASUREMENT` |
+| Memory Usage         | `YOUR_MEASUREMENT` |
+
+### Testing Environment
+
+```text
+CPU:
+RAM:
+Python:
+OS:
+Document Size:
+Number of Chunks:
+```
+
+> Performance depends on document size, hardware, embedding generation time and local LLM inference speed.
+
+---
+
+# 🧪 Evaluation
+
+The project can be evaluated using a set of questions with known answers and source pages.
+
+Example evaluation structure:
+
+```text
+Evaluation Dataset
+        ↓
+Test Questions
+        ↓
+RAG Pipeline
+        ↓
+Compare Results
+        ↓
+Retrieval + Answer Quality
+```
+
+### Evaluation Metrics
+
+Potential metrics include:
+
+* Retrieval@K
+* Context relevance
+* Answer relevance
+* Faithfulness
+* Response latency
+
+> Add measured evaluation results here once the evaluation dataset has been implemented.
+
+---
+
+# 🧩 Challenges Solved
+
+### Challenge 1 — Preserving document context
+
+**Solution:** Used overlapping recursive chunks and metadata such as page numbers and chunk IDs.
+
+### Challenge 2 — Finding relevant content
+
+**Solution:** Converted document chunks and user queries into embeddings and used FAISS similarity search.
+
+### Challenge 3 — Making answers traceable
+
+**Solution:** Preserved document metadata throughout the retrieval pipeline.
+
+### Challenge 4 — Running an LLM locally
+
+**Solution:** Integrated Ollama with Llama 3.2:3b for local inference.
+
+### Challenge 5 — Separating application layers
+
+**Solution:** Built a React frontend and FastAPI backend communicating through REST APIs.
+
+---
+
+# 📁 Project Structure
+
+```text
 AI-powered document intelligence system/
+│
 ├── backend/
-│   ├── main.py                          # FastAPI application & routes
-│   ├── requirements.txt                 # Python dependencies
+│   ├── main.py
+│   ├── requirements.txt
+│   │
 │   ├── data/
-│   │   ├── uploads/                     # Uploaded documents
+│   │   ├── uploads/
 │   │   └── vector_store/
-│   │       ├── chunks.json              # Chunk metadata
-│   │       └── document.index           # FAISS index
+│   │       ├── chunks.json
+│   │       └── document.index
+│   │
 │   └── services/
-│       ├── document_processor.py        # PDF/TXT extraction
-│       ├── chunker.py                   # Text splitting
-│       ├── embeddings.py                # Embedding generation
-│       ├── vector_store.py              # FAISS operations
-│       ├── retriever.py                 # Semantic search
-│       └── llm_service.py               # LLM communication
+│       ├── document_processor.py
+│       ├── chunker.py
+│       ├── embeddings.py
+│       ├── vector_store.py
+│       ├── retriever.py
+│       └── llm_service.py
+│
 ├── frontend/
-│   ├── package.json                     # Node dependencies
-│   ├── vite.config.js                   # Vite configuration
-│   ├── index.html                       # Entry HTML
+│   ├── package.json
+│   ├── vite.config.js
+│   ├── index.html
+│   │
 │   └── src/
-│       ├── App.jsx                      # Main React component
-│       ├── App.css                      # Styles
-│       └── main.jsx                     # React entry point
-└── README.md                            # This file
+│       ├── App.jsx
+│       ├── App.css
+│       └── main.jsx
+│
+├── screenshots/
+│   ├── 01-dashboard.png
+│   ├── 02-document-upload.png
+│   ├── 03-question-answer.png
+│   ├── 04-source-attribution.png
+│   └── 05-api-docs.png
+│
+├── demo/
+│   └── demo.gif
+│
+├── .gitignore
+├── README.md
+└── LICENSE
 ```
 
-## Prerequisites
+---
 
-- **Python 3.9+**
-- **Node.js 18+**
-- **Ollama** installed with `llama3.2:3b` model
-  - Download from: https://ollama.ai
-  - Pull model: `ollama pull llama3.2:3b`
+# 🔌 API Endpoints
 
-## Installation & Setup
+## `POST /upload-document`
 
-### 1. Clone the Repository
-```bash
-git clone <repository-url>
-cd "AI-powered document intelligence system"
-```
+Uploads and processes a PDF/TXT document.
 
-### 2. Backend Setup
+### Response
 
-#### Create Virtual Environment
-```bash
-cd backend
-python -m venv venv
-
-# On Windows
-venv\Scripts\activate
-
-# On macOS/Linux
-source venv/bin/activate
-```
-
-#### Install Dependencies
-```bash
-pip install -r requirements.txt
-```
-
-#### Verify Ollama is Running
-```bash
-ollama serve
-# In another terminal, verify the model is available:
-ollama list
-```
-
-#### Start Backend Server
-```bash
-uvicorn main:app --reload
-```
-- API runs at: `http://localhost:8000`
-- API documentation: `http://localhost:8000/docs`
-
-### 3. Frontend Setup
-
-#### Install Dependencies
-```bash
-cd frontend
-npm install
-```
-
-#### Start Development Server
-```bash
-npm run dev
-```
-- Frontend runs at: `http://localhost:5173`
-- Hot reload enabled for development
-
-## API Endpoints
-
-### `POST /upload-document`
-Upload and process a document.
-
-**Request:**
-```
-Content-Type: multipart/form-data
-Body: file (PDF or TXT)
-```
-
-**Response:**
 ```json
 {
   "message": "Document processed successfully",
@@ -187,17 +597,22 @@ Body: file (PDF or TXT)
 }
 ```
 
-### `POST /ask-question`
-Ask a question about the uploaded document.
+---
 
-**Request:**
+## `POST /ask-question`
+
+Ask a question about the indexed document.
+
+### Request
+
 ```json
 {
   "question": "What are the main objectives?"
 }
 ```
 
-**Response:**
+### Response
+
 ```json
 {
   "answer": "The research focuses on improving retinal disease classification...",
@@ -211,134 +626,350 @@ Ask a question about the uploaded document.
 }
 ```
 
-### `POST /reset`
-Clear the vector store and prepare for a new document.
+---
 
-**Response:**
+## `POST /reset`
+
+Clears the vector store.
+
+### Response
+
 ```json
 {
   "message": "Vector store cleared successfully"
 }
 ```
 
-## Usage
+---
 
-1. **Open** `http://localhost:5173` in your browser
-2. **Upload** a PDF or TXT file using the file input
-3. **Wait** for the document to be processed (extraction, chunking, embedding)
-4. **Ask** questions about the document content
-5. **View** answers with source attribution showing exact document excerpts
+# ⚙️ Installation & Setup
 
-## Key Features
+## Prerequisites
 
-✅ **Document Support**: PDF and TXT files
-✅ **Semantic Search**: Find relevant content using embeddings
-✅ **Source Attribution**: Know where answers come from
-✅ **Page Tracking**: Metadata preserves original page numbers
-✅ **Persistent Storage**: Vector store survives application restarts
-✅ **CORS Enabled**: Frontend and backend can run on different ports
-✅ **Error Handling**: Graceful error messages for unsupported files
+* Python 3.9+
+* Node.js 18+
+* npm
+* Ollama
 
-## Performance Characteristics
+Install Ollama and download the required model:
 
-- **Embedding Generation**: ~1-2s for typical documents
-- **Question Answering**: ~3-5s (depends on LLM response time)
-- **Memory Usage**: ~500MB for all services
-- **Vector Search**: <100ms for similarity lookup
+```bash
+ollama pull llama3.2:3b
+```
 
-## Development & Testing
+---
 
-### Running Tests
+## 1. Clone Repository
+
+```bash
+git clone <repository-url>
+
+cd "AI-powered document intelligence system"
+```
+
+---
+
+## 2. Backend Setup
+
+```bash
+cd backend
+
+python -m venv venv
+```
+
+### Windows
+
+```bash
+venv\Scripts\activate
+```
+
+### macOS/Linux
+
+```bash
+source venv/bin/activate
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## 3. Start Ollama
+
+```bash
+ollama serve
+```
+
+Verify the model:
+
+```bash
+ollama list
+```
+
+---
+
+## 4. Start FastAPI
+
+Inside the `backend` directory:
+
+```bash
+uvicorn main:app --reload
+```
+
+Backend:
+
+```text
+http://localhost:8000
+```
+
+Swagger API documentation:
+
+```text
+http://localhost:8000/docs
+```
+
+---
+
+## 5. Start Frontend
+
+Open another terminal:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Frontend:
+
+```text
+http://localhost:5173
+```
+
+---
+
+# 🖥️ Usage
+
+### Step 1 — Upload
+
+Upload a PDF or TXT document.
+
+### Step 2 — Processing
+
+The backend extracts, cleans, chunks and embeds the document.
+
+### Step 3 — Indexing
+
+Embeddings are stored in FAISS.
+
+### Step 4 — Ask
+
+Enter a natural-language question.
+
+### Step 5 — Retrieve
+
+The system retrieves the most relevant document chunks.
+
+### Step 6 — Generate
+
+Llama 3.2 generates an answer using the retrieved context.
+
+### Step 7 — Verify
+
+Review the source document, page number and retrieved excerpt.
+
+---
+
+# 🧪 Testing
+
+Run backend tests:
+
 ```bash
 cd backend
 pytest
 ```
 
-### Building Frontend for Production
+Build the frontend:
+
 ```bash
 cd frontend
 npm run build
 ```
 
-Output files go to `frontend/dist/`
+Production files are generated in:
 
-## Design Rationale
+```text
+frontend/dist/
+```
 
-### Why FAISS?
-- Fast, scalable vector similarity search
-- Minimal dependencies
-- Persistent index support
-- Efficient for document-sized datasets
+---
 
-### Why Sentence Transformers?
-- Pre-trained on semantic similarity tasks
-- No GPU required
-- Lightweight model size
-- Works well out-of-the-box
+# ⚠️ Current Limitations
 
-### Why Local LLM (Ollama)?
-- Privacy: No API keys or external calls
-- Cost-effective: No per-token charges
-- Customizable: Can swap models easily
-- Fast iteration during development
+* Supports PDF and TXT documents
+* Primarily optimized for text-based PDFs
+* Scanned/image-based PDFs require OCR
+* FAISS is currently designed for local/single-application usage
+* Local LLM inference depends on available system resources
+* Retrieval quality depends on chunking and embedding configuration
+* Currently processes one document at a time
+* Tables and complex document layouts may not be fully preserved
 
-### Why FastAPI?
-- Modern, async-capable
-- Automatic API documentation
-- Type hints for validation
-- CORS middleware built-in
+---
 
-## Future Enhancements (Bonus Features)
+# 🚀 Future Roadmap
 
-1. **Conversation Memory**: Maintain context across multiple questions
-2. **Hybrid Search**: Combine semantic and keyword-based search
-3. **Evaluation Framework**: Measure retrieval accuracy and hallucination rate
-4. **Streaming Responses**: Real-time LLM output to frontend
-5. **Docker Deployment**: Complete containerization with docker-compose
-6. **Multiple Document Support**: Store and search across multiple documents
-7. **Query Optimization**: Automatic prompt engineering
+## Phase 1 — Retrieval Improvements
 
-## Troubleshooting
+* [ ] Hybrid semantic + keyword search
+* [ ] Reranking
+* [ ] Query rewriting
+* [ ] Better chunking strategies
 
-### "Ollama connection refused"
-- Ensure Ollama is running: `ollama serve`
-- Check if model is installed: `ollama list`
+## Phase 2 — Advanced Document Intelligence
 
-### "CUDA out of memory"
-- Using CPU mode is default and sufficient for small documents
-- No GPU required for this implementation
+* [ ] OCR for scanned PDFs
+* [ ] Table extraction
+* [ ] Image understanding
+* [ ] Multi-document comparison
+* [ ] Cross-document reasoning
 
-### "ModuleNotFoundError"
-- Verify virtual environment is activated
-- Run `pip install -r requirements.txt` again
+## Phase 3 — Production Features
 
-### "Port already in use"
-- Backend: Change port with `uvicorn main:app --reload --port 8001`
-- Frontend: Vite will use next available port automatically
+* [ ] Docker / Docker Compose
+* [ ] Authentication
+* [ ] User-specific document collections
+* [ ] Cloud deployment
+* [ ] Streaming responses
+* [ ] Logging and monitoring
 
-## File Limits
+## Phase 4 — AI Evaluation
 
-- **Max File Size**: 50MB (configurable in FastAPI)
-- **Max Text Length**: Typically 10MB of extracted text per document
-- **Recommended**: Documents under 100 pages or 5MB
+* [ ] Automated RAG evaluation
+* [ ] Retrieval benchmarks
+* [ ] Faithfulness evaluation
+* [ ] Answer relevance evaluation
+* [ ] Latency monitoring
 
-## Environment Variables
+---
 
-Currently uses defaults. To customize:
+# 🔐 Environment Variables
 
-```bash
-# Backend
-export OLLAMA_HOST=http://localhost:11434
-export MODEL_NAME=llama3.2:3b
+Currently the application can use local defaults.
 
-# Frontend (in .env)
+Optional configuration:
+
+```env
+OLLAMA_HOST=http://localhost:11434
+MODEL_NAME=llama3.2:3b
 VITE_API_URL=http://localhost:8000
 ```
 
-## License
+> Never commit API keys, secrets or private configuration files to GitHub.
 
-This is a demonstration project created for the AI Software Engineer Technical Pre-Assessment.
+---
 
-## Support
+# 🛠️ Design Decisions
 
-For issues or questions, refer to the project requirements and API documentation at `http://localhost:8000/docs`
+## Why FAISS?
+
+* Fast vector similarity search
+* Lightweight
+* Easy local deployment
+* Minimal infrastructure requirements
+* Suitable for document-scale datasets
+
+## Why Sentence Transformers?
+
+* Lightweight embedding model
+* CPU-friendly
+* Strong semantic similarity performance
+* No model fine-tuning required
+
+## Why Ollama?
+
+* Local inference
+* No external API dependency
+* No per-token API cost
+* Better privacy for sensitive documents
+* Easy model replacement
+
+## Why FastAPI?
+
+* High-performance Python API framework
+* Automatic OpenAPI documentation
+* Type validation
+* Clean REST architecture
+* Easy integration with React
+
+## Why React + Vite?
+
+* Component-based frontend
+* Fast development workflow
+* Lightweight build tooling
+* Clear separation between frontend and backend
+
+---
+
+# 🧠 What I Learned
+
+Building this project provided practical experience with:
+
+* Retrieval-Augmented Generation
+* Document preprocessing
+* Semantic embeddings
+* Vector similarity search
+* FAISS
+* Local LLM inference
+* Prompt grounding
+* Source attribution
+* REST API development
+* React frontend development
+* Backend/frontend integration
+* Error handling
+* AI application architecture
+
+---
+
+# 🎯 Project Goals
+
+This project was built to explore how modern AI systems can combine:
+
+```text
+Traditional Software Engineering
+             +
+Document Processing
+             +
+Semantic Search
+             +
+Vector Databases
+             +
+Large Language Models
+             ↓
+      Intelligent Applications
+```
+
+The goal was not simply to build a chatbot, but to understand and implement the complete pipeline behind a practical **RAG-powered AI application**.
+
+---
+
+# 📜 License
+
+This project is created for educational and portfolio purposes.
+
+---
+
+## 👩‍💻 Author
+
+**Kaniz Fatema**
+
+Interested in:
+
+`AI Engineering` • `Machine Learning` • `Data Analytics` • `Full-Stack Development`
+
+---
+
+⭐ If you found this project interesting, consider giving the repository a star!
