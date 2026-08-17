@@ -20,23 +20,6 @@ A full-stack **Retrieval-Augmented Generation (RAG)** application that allows us
 
 ### 🖥️ Application Preview
 
-## 🖥️ Screenshots
-
-### 📄 Document Upload
-
-![Document Upload](screenshots/02-document-upload.png)
-
-### 💬 AI Question Answering
-
-![Question Answering](screenshots/03-question-answer.png)
-
-### 🔎 Source Attribution
-
-![Source Attribution](screenshots/04-source-attribution.png)
-
-### ⚡ FastAPI Backend
-
-![FastAPI](screenshots/05-api-docs.png)
 
 ### 🎥 Demo Video
 
@@ -44,14 +27,6 @@ A full-stack **Retrieval-Augmented Generation (RAG)** application that allows us
 
 **[▶️ Watch the Full Demo](YOUR_VIDEO_LINK_HERE)**
 
-### 🔗 Quick Links
-
-* 🚀 **Live Demo:** `YOUR_LIVE_DEMO_LINK`
-* 🎥 **Demo Video:** `YOUR_VIDEO_LINK`
-* 📂 **Source Code:** `YOUR_GITHUB_REPOSITORY_LINK`
-* ⚡ **API Documentation:** `http://localhost:8000/docs`
-
----
 
 # ⭐ Key Highlights
 
@@ -460,32 +435,6 @@ The React frontend communicates with the FastAPI backend through HTTP endpoints.
 ### 🧩 Modular Backend
 
 Document processing, chunking, embeddings, retrieval, vector storage and LLM communication are separated into dedicated services.
-
----
-
-# 📊 Performance
-
-> Replace the values below with measurements from your own machine.
-
-| Operation            |             Result |
-| -------------------- | -----------------: |
-| Embedding Generation | `YOUR_MEASUREMENT` |
-| Vector Search        | `YOUR_MEASUREMENT` |
-| End-to-End Q&A       | `YOUR_MEASUREMENT` |
-| Memory Usage         | `YOUR_MEASUREMENT` |
-
-### Testing Environment
-
-```text
-CPU:
-RAM:
-Python:
-OS:
-Document Size:
-Number of Chunks:
-```
-
-> Performance depends on document size, hardware, embedding generation time and local LLM inference speed.
 
 ---
 
