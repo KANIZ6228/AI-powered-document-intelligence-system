@@ -25,7 +25,7 @@ A full-stack **Retrieval-Augmented Generation (RAG)** application that allows us
 
 > Add your demo video link here after recording it.
 
-**[▶️ Watch Demo](demo%20video/demo.mp4)**
+**[▶️ Watch Demo](https://youtu.be/TuaPyrK8V3w)**
 
 
 # ⭐ Key Highlights
