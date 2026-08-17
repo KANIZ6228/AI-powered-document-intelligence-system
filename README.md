@@ -25,7 +25,7 @@ A full-stack **Retrieval-Augmented Generation (RAG)** application that allows us
 
 > Add your demo video link here after recording it.
 
-**▶️ [Watch Demo](videos/demo.mp4)**
+**[▶️ Watch Demo](demo%20video/demo.mp4)**
 
 
 # ⭐ Key Highlights
@@ -85,7 +85,7 @@ This helps reduce unsupported responses and makes answers easier to verify.
 
 ## 1. Document Intelligence Dashboard
 
-![Dashboard](screenshots/01-dashboard.png)
+![Dashboard](screenshots/dashboard.png)
 
 The main interface allows users to upload documents and interact with the document knowledge base.
 
@@ -93,31 +93,15 @@ The main interface allows users to upload documents and interact with the docume
 
 ## 2. Document Upload & Processing
 
-![Document Upload](screenshots/02-document-upload.png)
+![Document Upload](screenshots/document-upload.png)
 
 Users can upload supported PDF or TXT documents for processing.
-
-The backend performs:
-
-```text
-Upload
-   ↓
-Text Extraction
-   ↓
-Text Cleaning
-   ↓
-Chunking
-   ↓
-Embedding Generation
-   ↓
-FAISS Indexing
-```
 
 ---
 
 ## 3. AI Question Answering
 
-![Question Answering](screenshots/03-question-answer.png)
+![Question Answering](screenshots/question-answer.png)
 
 Users can ask natural-language questions about the uploaded document.
 
@@ -129,37 +113,15 @@ The system retrieves relevant document context before generating the response.
 
 ---
 
-## 4. Source Attribution
+## 4. Backend API
 
-![Source Attribution](screenshots/04-source-attribution.png)
-
-Each answer can be traced back to the retrieved document content.
-
-Example:
-
-```text
-📄 research_paper.pdf
-Page: 4
-Chunk: 7
-
-"The proposed methodology..."
-```
-
-This improves transparency and allows users to verify generated answers.
-
----
-
-## 5. Backend API
-
-![API Documentation](screenshots/05-api-docs.png)
+![API Documentation](screenshots/api-docs.png)
 
 The backend provides interactive API documentation through FastAPI Swagger UI.
 
 Available at:
 
 `http://localhost:8000/docs`
-
----
 
 # 🎥 Demo Workflow
 
