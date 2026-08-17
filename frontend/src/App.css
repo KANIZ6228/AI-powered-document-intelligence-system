@@ -72,7 +72,7 @@ body {
 }
 
 .header::before {
-  content: 'DOCUMENT INTELLIGENCE · RETRIEVAL LOG';
+  content: 'AI-POWERED DOCUMENT INTELLIGENCE SYSTEM';
   display: block;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 12px;
@@ -81,7 +81,6 @@ body {
   margin-bottom: 16px;
   font-weight: 500;
 }
-
 .header h1 {
   margin: 0;
   font-family: 'Source Serif 4', Georgia, serif;
