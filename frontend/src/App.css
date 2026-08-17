@@ -1,447 +1,493 @@
 /* =====================================================
-   Design Tokens & Variables
+   Document Intelligence — visual system
+   Concept: a research desk / evidence log for your files.
+   Serif headlines ("Source Serif" — a nod to source
+   attribution), mono for data (pages, chunk ids, status),
+   Inter for reading. Accent is an ink-stamp gold, used the
+   way a librarian's stamp or highlighter tape would be.
 ===================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
 :root {
-  --bg-app: #f8fafc;
-  --bg-surface: #ffffff;
-  --bg-subtle: #f1f5f9;
-  
-  --border-color: #e2e8f0;
-  --border-active: #cbd5e1;
-  --border-focus: #2563eb;
+  --ink: #182430;
+  --ink-soft: #57616f;
+  --ink-faint: #8a93a0;
+  --paper: #eceef2;
+  --paper-line: #dde1e7;
+  --card: #ffffff;
+  --line: #e0e3e9;
 
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #64748b;
-  --text-light: #ffffff;
+  --gold: #b9872c;
+  --gold-deep: #93691d;
+  --gold-tape: #f3e3bd;
 
-  --brand-primary: #1e293b;
-  --brand-hover: #0f172a;
-  --accent-blue: #2563eb;
-  --accent-blue-light: #eff6ff;
+  --teal: #1f6f5c;
+  --teal-soft: #e2f1ec;
 
-  --status-success-bg: #ecfdf5;
-  --status-success-border: #a7f3d0;
-  --status-success-text: #065f46;
+  --brick: #ad4530;
+  --brick-soft: #fbe9e4;
 
-  --status-error-bg: #fef2f2;
-  --status-error-border: #fecaca;
-  --status-error-text: #991b1b;
-
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
-
-  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
-  --shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
-  --shadow-lg: 0 12px 28px -4px rgba(15, 23, 42, 0.08);
-
-  --transition-fast: 0.15s ease;
-  --transition-smooth: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  --radius-lg: 14px;
+  --radius-md: 10px;
+  --shadow-card: 0 1px 2px rgba(24, 36, 48, 0.04), 0 10px 30px rgba(24, 36, 48, 0.07);
 }
 
-/* =====================================================
-   Base & Layout
-===================================================== */
-*, *::before, *::after {
+* {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
-  background-color: var(--bg-app);
-  color: var(--text-primary);
-  line-height: 1.5;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
   -webkit-font-smoothing: antialiased;
 }
 
+/* faint ruled-paper texture behind everything */
 .app {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.container {
-  width: 100%;
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 0 20px;
-  flex: 1;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 35px,
+    var(--paper-line) 35px,
+    var(--paper-line) 36px
+  );
+  background-attachment: local;
 }
 
 /* =====================================================
-   Header & Title / Logo
+   Header
 ===================================================== */
+
 .header {
-  background: var(--bg-surface);
-  border-bottom: 1px solid var(--border-color);
-  padding: 24px 20px;
+  background: var(--ink);
+  color: white;
+  padding: 52px 20px 44px;
+  text-align: center;
+  position: relative;
+  border-bottom: 4px solid var(--gold);
 }
 
-.header-content {
-  max-width: 860px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.logo-group {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.logo-icon {
-  width: 36px;
-  height: 36px;
-  background: var(--brand-primary);
-  color: var(--text-light);
-  border-radius: var(--radius-sm);
-  display: grid;
-  place-items: center;
-  font-weight: 700;
-  font-size: 18px;
+.header::before {
+  content: 'DOCUMENT INTELLIGENCE · RETRIEVAL LOG';
+  display: block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+  margin-bottom: 16px;
+  font-weight: 500;
 }
 
 .header h1 {
   margin: 0;
-  font-size: 20px;
+  font-family: 'Source Serif 4', Georgia, serif;
   font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-.header p {
-  margin: 2px 0 0 0;
-  font-size: 13px;
-  color: var(--text-muted);
-}
-
-/* =====================================================
-   Card Base
-===================================================== */
-.card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 32px;
-  margin-top: 24px;
-  box-shadow: var(--shadow-md);
-  transition: var(--transition-smooth);
-}
-
-.card h2 {
-  margin: 0 0 8px 0;
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 40px;
   letter-spacing: -0.01em;
 }
 
-.description {
-  margin: 0 0 20px 0;
-  color: var(--text-muted);
-  font-size: 14px;
+.header p {
+  margin-top: 12px;
+  color: #b9c2cf;
+  font-size: 15px;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
 }
 
 /* =====================================================
-   Upload Area & File Display
+   Main Container
 ===================================================== */
-.upload-area {
-  border: 2px dashed var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 36px 20px;
-  text-align: center;
-  background: var(--bg-subtle);
-  cursor: pointer;
-  transition: var(--transition-fast);
+
+.container {
+  width: 90%;
+  max-width: 880px;
+  margin: 44px auto;
 }
 
-.upload-area:hover, 
-.upload-area.drag-over {
-  border-color: var(--accent-blue);
-  background: var(--accent-blue-light);
+/* =====================================================
+   Cards
+===================================================== */
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 30px;
+  margin-bottom: 26px;
+  box-shadow: var(--shadow-card);
+  position: relative;
 }
 
-.upload-icon {
-  font-size: 28px;
-  margin-bottom: 8px;
-  display: block;
-}
-
-.upload-title {
+.card h2 {
+  margin-top: 0;
+  font-family: 'Source Serif 4', Georgia, serif;
   font-weight: 600;
-  font-size: 14px;
-  color: var(--text-primary);
+  font-size: 22px;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.upload-hint {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-top: 4px;
+.description {
+  color: var(--ink-soft);
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+
+/* =====================================================
+   Upload
+===================================================== */
+
+.upload-area {
+  border: 2px dashed #b6bcc6;
+  border-radius: var(--radius-md);
+  padding: 36px 24px;
+  margin: 20px 0;
+  text-align: center;
+  background: #fbfbfc;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.upload-area:hover {
+  border-color: var(--gold);
+  background: #fdfaf3;
 }
 
 .selected-file {
   margin-top: 16px;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 14px;
-  background: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-primary);
-  box-shadow: var(--shadow-sm);
+  font-weight: 600;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13.5px;
+  color: var(--ink);
+  background: var(--gold-tape);
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transform: rotate(-0.6deg);
 }
 
 /* =====================================================
-   Textarea & Chat Section
+   Processing status — styled like a stamped tag
 ===================================================== */
-.input-wrapper {
-  position: relative;
-  margin-top: 16px;
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1.5px dashed var(--gold-deep);
+  color: var(--gold-deep);
+  background: var(--gold-tape);
+  transform: rotate(-1deg);
 }
+
+.status-badge.success {
+  border-color: var(--teal);
+  color: var(--teal);
+  background: var(--teal-soft);
+}
+
+.status-badge.error {
+  border-color: var(--brick);
+  color: var(--brick);
+  background: var(--brick-soft);
+}
+
+/* animated ink-dot loader, used inside .status-badge or standalone */
+.loading-dots {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.loading-dots span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: ink-pulse 1.1s infinite ease-in-out;
+}
+
+.loading-dots span:nth-child(2) { animation-delay: 0.15s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes ink-pulse {
+  0%, 80%, 100% { opacity: 0.25; transform: translateY(0); }
+  40% { opacity: 1; transform: translateY(-2px); }
+}
+
+/* =====================================================
+   Textarea
+===================================================== */
 
 textarea {
   width: 100%;
-  min-height: 110px;
   padding: 16px;
-  background: var(--bg-surface);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--line);
   border-radius: var(--radius-md);
   resize: vertical;
-  font-size: 14px;
-  font-family: inherit;
-  color: var(--text-primary);
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition-fast);
+  font-size: 15.5px;
+  margin: 15px 0;
+  font-family: 'Inter', inherit;
+  background: #fbfbfc;
+  color: var(--ink);
+}
+
+textarea::placeholder {
+  color: var(--ink-faint);
 }
 
 textarea:focus {
   outline: none;
-  border-color: var(--border-focus);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
-}
-
-textarea::placeholder {
-  color: var(--text-muted);
+  border-color: var(--ink);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(24, 36, 48, 0.08);
 }
 
 /* =====================================================
-   Buttons & Controls
+   Buttons
 ===================================================== */
-.button-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 16px;
-}
 
 .primary-button {
-  background: var(--brand-primary);
-  color: var(--text-light);
+  background: var(--ink);
+  color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: var(--radius-sm);
-  font-size: 14px;
+  padding: 13px 24px;
+  border-radius: 9px;
+  font-size: 15px;
   font-weight: 600;
+  font-family: 'Inter', inherit;
   cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: var(--transition-fast);
-  box-shadow: var(--shadow-sm);
+  transition: background 0.15s ease, transform 0.1s ease;
 }
 
-.primary-button:hover:not(:disabled) {
-  background: var(--brand-hover);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+.primary-button:hover {
+  background: #2c3b4c;
 }
 
-.primary-button:active:not(:disabled) {
-  transform: translateY(0);
+.primary-button:active {
+  transform: translateY(1px);
 }
 
 .primary-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  transform: none;
 }
 
+.primary-button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Reset / new document — quiet ghost button */
 .reset-button {
   background: transparent;
-  color: var(--text-muted);
-  border: 1px solid var(--border-color);
-  padding: 8px 14px;
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  font-weight: 500;
+  color: var(--ink-soft);
+  border: 1.5px solid var(--line);
+  padding: 11px 20px;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Inter', inherit;
   cursor: pointer;
-  transition: var(--transition-fast);
+  transition: border-color 0.15s ease, color 0.15s ease;
 }
 
 .reset-button:hover {
-  background: var(--bg-subtle);
-  color: var(--text-primary);
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.reset-button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
 }
 
 /* =====================================================
-   Status, Loading & Messages
+   Success
 ===================================================== */
-.status-indicator {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  color: var(--text-muted);
-  font-weight: 500;
-}
-
-.loading-spinner {
-  width: 16px;
-  height: 16px;
-  border: 2px solid var(--border-color);
-  border-top-color: var(--accent-blue);
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
 
 .success-box {
-  margin-top: 16px;
-  padding: 14px 18px;
-  background: var(--status-success-bg);
-  border: 1px solid var(--status-success-border);
-  color: var(--status-success-text);
-  border-radius: var(--radius-sm);
-  font-size: 14px;
+  margin-top: 20px;
+  padding: 20px;
+  background: var(--teal-soft);
+  border: 1px solid var(--teal);
+  border-left: 4px solid var(--teal);
+  border-radius: 10px;
 }
+
+.success-box h3 {
+  margin-top: 0;
+  font-family: 'Source Serif 4', Georgia, serif;
+  color: #16493c;
+  font-size: 17px;
+}
+
+/* =====================================================
+   Error
+===================================================== */
 
 .error-box {
-  background: var(--status-error-bg);
-  border: 1px solid var(--status-error-border);
-  color: var(--status-error-text);
-  padding: 14px 18px;
-  border-radius: var(--radius-sm);
-  margin-top: 16px;
-  font-size: 14px;
-  font-weight: 500;
+  background: var(--brick-soft);
+  border: 1px solid var(--brick);
+  border-left: 4px solid var(--brick);
+  color: #7c3122;
+  padding: 16px 18px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  font-size: 14.5px;
 }
 
 /* =====================================================
-   Answer Card
+   Answer
 ===================================================== */
-.answer-section {
-  border-left: 3px solid var(--brand-primary);
-  background: var(--bg-subtle);
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
-  padding: 20px 24px;
-  margin-top: 16px;
-  font-size: 15px;
-  line-height: 1.7;
-  color: var(--text-primary);
+
+.answer {
+  background: #fbfbfc;
+  border-left: 4px solid var(--ink);
+  padding: 22px 24px;
+  line-height: 1.75;
+  white-space: pre-wrap;
+  font-size: 15.5px;
+  border-radius: 0 8px 8px 0;
+  position: relative;
+}
+
+.answer::before {
+  content: '\201C';
+  position: absolute;
+  top: -6px;
+  left: 10px;
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 60px;
+  color: var(--line);
+  line-height: 1;
+  z-index: 0;
 }
 
 /* =====================================================
-   Citations & Sources (Highlighted feature)
+   Sources — styled as library index / evidence cards
 ===================================================== */
-.sources-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 32px;
-  margin-bottom: 16px;
-}
-
-.sources-header h3 {
-  margin: 0;
-  font-size: 15px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--text-muted);
-}
-
-.sources-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 12px;
-}
 
 .source {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 16px;
-  transition: var(--transition-fast);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.source:hover {
-  border-color: var(--border-active);
-  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--gold);
+  border-radius: 10px;
+  padding: 20px 20px 18px;
+  margin-top: 16px;
+  background: var(--card);
+  position: relative;
 }
 
 .source-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
-}
-
-.source-tag {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  background: var(--bg-subtle);
-  color: var(--text-secondary);
-  padding: 2px 8px;
-  border-radius: 4px;
-}
-
-.relevance-badge {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--accent-blue);
-  background: var(--accent-blue-light);
-  padding: 2px 8px;
-  border-radius: 4px;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .source p {
+  line-height: 1.65;
+  color: #3d4650;
+  font-size: 14.5px;
   margin: 0;
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--text-secondary);
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 .source small {
-  display: block;
-  margin-top: 12px;
+  color: var(--ink-faint);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+}
+
+/* page / chunk tags — the "tape" tab on each evidence card */
+.page-tag,
+.chunk-tag {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 11px;
-  color: var(--text-muted);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  border-radius: 4px;
+  margin-right: 6px;
+}
+
+.page-tag {
+  background: var(--gold-tape);
+  color: var(--gold-deep);
+  transform: rotate(-1deg);
+}
+
+.chunk-tag {
+  background: var(--paper);
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
 }
 
 /* =====================================================
    Footer
 ===================================================== */
+
 footer {
   text-align: center;
-  padding: 40px 20px;
-  color: var(--text-muted);
+  padding: 34px 20px;
+  color: var(--ink-faint);
   font-size: 13px;
-  border-top: 1px solid var(--border-color);
-  background: var(--bg-surface);
-  margin-top: 60px;
+  font-family: 'IBM Plex Mono', monospace;
+  border-top: 1px solid var(--paper-line);
+}
+
+/* =====================================================
+   Responsive
+===================================================== */
+
+@media (max-width: 600px) {
+  .header h1 {
+    font-size: 30px;
+  }
+
+  .container {
+    width: 92%;
+    margin: 28px auto;
+  }
+
+  .card {
+    padding: 22px;
+  }
+
+  .source-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}
+
+/* =====================================================
+   Reduced motion
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-dots span {
+    animation: none;
+    opacity: 0.7;
+  }
+
+  .primary-button,
+  .reset-button {
+    transition: none;
+  }
 }
