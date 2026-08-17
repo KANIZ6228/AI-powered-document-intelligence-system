@@ -1,0 +1,42 @@
+[
+  {
+    "chunk_id": 0,
+    "page": 1,
+    "text": "AI Software Engineer Intern \nTechnical Pre-Assessment"
+  },
+  {
+    "chunk_id": 1,
+    "page": 1,
+    "text": "Objective \nBuild a small AI-powered document intelligence system that accepts documents, extracts useful information, answers \nquestions about the document, and provides evidence for its answers. \nCandidate Task \nYou will build a simple web application where a user can: \n1. Upload a PDF/TXT document \n2. Extract and process the document text \n3. Split the text into meaningful chunks \n4. Generate embeddings \n5. Store embeddings in a vector database \n6. Ask questions about the uploaded document \n7. Retrieve the most relevant chunks \n8. Generate an answer using an LLM \n9. Display the answer together with the relevant source chunks \nRecommended Stack \nYou are free to choose your own implementation, but we recommend: \n• Backend: Python + FastAPI"
+  },
+  {
+    "chunk_id": 2,
+    "page": 1,
+    "text": "Recommended Stack \nYou are free to choose your own implementation, but we recommend: \n• Backend: Python + FastAPI \n• AI / ML: OpenAI API / Gemini API / another LLM API \n• Embeddings: OpenAI embeddings / Sentence Transformers \n• Vector DB: FAISS / ChromaDB \n• Frontend: React / Next.js \n• Docker (bonus) \nCore Requirements \n1. Document Processing \nThe system should: \n• Accept PDF or TXT files \n• Extract text \n• Clean the extracted text"
+  },
+  {
+    "chunk_id": 3,
+    "page": 2,
+    "text": "• Split it into chunks \n• Store metadata such as page number / chunk ID \n2. Semantic Search \nWhen the user asks a question, for example: \nUser: \nWhat are the main objectives of this research? \nThe application should follow this pipeline: \nQuestion \n ↓ \nEmbedding \n ↓ \nVector Search \n ↓ \nTop relevant chunks \n ↓ \nLLM \n ↓ \nAnswer + Sources \n3. Retrieval Augmented Generation (RAG) \nYou must implement a basic Retrieval Augmented Generation pipeline. The LLM should answer based primarily on the \nretrieved document context. The system should avoid confidently inventing information that isn't present in the document. \n4. Source Attribution \nExample expected output: \nAnswer: \n\nThe research focuses on improving retinal disease \nclassification using deep learning models. \n\nSources:"
+  },
+  {
+    "chunk_id": 4,
+    "page": 2,
+    "text": "The research focuses on improving retinal disease \nclassification using deep learning models. \n\nSources: \n\nPage 2 \n\"...the objective of this study is...\" \n\nPage 4 \n\"...deep learning-based classification...\" \nThis is particularly useful for evaluating whether you understand practical AI systems, rather than simply calling an LLM \nAPI. \nBonus Tasks (Optional) \nThe following are not mandatory but will be viewed favorably if attempted."
+  },
+  {
+    "chunk_id": 5,
+    "page": 3,
+    "text": "Bonus 1: Conversation Memory \nAllow the system to understand follow-up questions in context of the previous question, for example: \nUser: What is the research about? \nAI: ..."
+  },
+  {
+    "chunk_id": 6,
+    "page": 3,
+    "text": "User: Who proposed this approach? \nAI: ... \nBonus 2: Hybrid Search \nCombine semantic search with keyword search and compare the results. \nBonus 3: Evaluation \nCreate 5–10 predefined questions and evaluate retrieval accuracy, answer relevance, hallucination rate, and latency. \nBonus 4: Streaming \nStream the LLM response to the frontend. \nBonus 5: Docker \nProvide a docker-compose.yml so the complete application can be started with a single command. \nSubmission Instructions \n• Push your code to a public GitHub repository \n• Include a README with setup instructions and a short explanation of your design decisions \n• Submit your repository link before the deadline communicated to you separately"
+  },
+  {
+    "chunk_id": 7,
+    "page": 3,
+    "text": "Submission Deadline \n• \nDeadline: 18 August 2026, 12:00 AM (midnight) \n• \nSubmission: Please send your GitHub repository link to hr@niduslab.com."
+  }
+]
