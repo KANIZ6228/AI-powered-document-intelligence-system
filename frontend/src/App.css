@@ -1,228 +1,447 @@
-* {
+/* =====================================================
+   Design Tokens & Variables
+===================================================== */
+:root {
+  --bg-app: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-subtle: #f1f5f9;
+  
+  --border-color: #e2e8f0;
+  --border-active: #cbd5e1;
+  --border-focus: #2563eb;
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --text-light: #ffffff;
+
+  --brand-primary: #1e293b;
+  --brand-hover: #0f172a;
+  --accent-blue: #2563eb;
+  --accent-blue-light: #eff6ff;
+
+  --status-success-bg: #ecfdf5;
+  --status-success-border: #a7f3d0;
+  --status-success-text: #065f46;
+
+  --status-error-bg: #fef2f2;
+  --status-error-border: #fecaca;
+  --status-error-text: #991b1b;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 12px 28px -4px rgba(15, 23, 42, 0.08);
+
+  --transition-fast: 0.15s ease;
+  --transition-smooth: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* =====================================================
+   Base & Layout
+===================================================== */
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
-
 body {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #f4f6f8;
-  color: #1f2937;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
-
 
 .app {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
+.container {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 20px;
+  flex: 1;
+}
 
 /* =====================================================
-   Header
+   Header & Title / Logo
 ===================================================== */
-
 .header {
-  background: #111827;
-  color: white;
-  padding: 40px 20px;
-  text-align: center;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-color);
+  padding: 24px 20px;
 }
 
+.header-content {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  width: 36px;
+  height: 36px;
+  background: var(--brand-primary);
+  color: var(--text-light);
+  border-radius: var(--radius-sm);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 18px;
+}
 
 .header h1 {
   margin: 0;
-  font-size: 36px;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
-
 
 .header p {
-  margin-top: 10px;
-  color: #d1d5db;
+  margin: 2px 0 0 0;
+  font-size: 13px;
+  color: var(--text-muted);
 }
 
-
 /* =====================================================
-   Main Container
+   Card Base
 ===================================================== */
-
-.container {
-  width: 90%;
-  max-width: 900px;
-  margin: 40px auto;
-}
-
-
-/* =====================================================
-   Cards
-===================================================== */
-
 .card {
-  background: white;
-  border-radius: 16px;
-  padding: 28px;
-  margin-bottom: 25px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  margin-top: 24px;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition-smooth);
 }
-
 
 .card h2 {
-  margin-top: 0;
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
-
 
 .description {
-  color: #6b7280;
+  margin: 0 0 20px 0;
+  color: var(--text-muted);
+  font-size: 14px;
 }
-
 
 /* =====================================================
-   Upload
+   Upload Area & File Display
 ===================================================== */
-
 .upload-area {
-  border: 2px dashed #9ca3af;
-  border-radius: 12px;
-  padding: 30px;
-  margin: 20px 0;
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 36px 20px;
   text-align: center;
+  background: var(--bg-subtle);
+  cursor: pointer;
+  transition: var(--transition-fast);
 }
 
+.upload-area:hover, 
+.upload-area.drag-over {
+  border-color: var(--accent-blue);
+  background: var(--accent-blue-light);
+}
+
+.upload-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.upload-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.upload-hint {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
 
 .selected-file {
-  margin-top: 15px;
-  font-weight: bold;
+  margin-top: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
 }
 
-
 /* =====================================================
-   Textarea
+   Textarea & Chat Section
 ===================================================== */
+.input-wrapper {
+  position: relative;
+  margin-top: 16px;
+}
 
 textarea {
   width: 100%;
-  padding: 15px;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
+  min-height: 110px;
+  padding: 16px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
   resize: vertical;
-  font-size: 16px;
-  margin: 15px 0;
+  font-size: 14px;
   font-family: inherit;
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-fast);
 }
-
 
 textarea:focus {
   outline: none;
-  border-color: #111827;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
+textarea::placeholder {
+  color: var(--text-muted);
+}
 
 /* =====================================================
-   Buttons
+   Buttons & Controls
 ===================================================== */
+.button-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+}
 
 .primary-button {
-  background: #111827;
-  color: white;
+  background: var(--brand-primary);
+  color: var(--text-light);
   border: none;
-  padding: 13px 22px;
-  border-radius: 9px;
-  font-size: 15px;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: var(--transition-fast);
+  box-shadow: var(--shadow-sm);
 }
 
-
-.primary-button:hover {
-  background: #374151;
+.primary-button:hover:not(:disabled) {
+  background: var(--brand-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
+.primary-button:active:not(:disabled) {
+  transform: translateY(0);
+}
 
 .primary-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
+.reset-button {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.reset-button:hover {
+  background: var(--bg-subtle);
+  color: var(--text-primary);
+}
 
 /* =====================================================
-   Success
+   Status, Loading & Messages
 ===================================================== */
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.loading-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--border-color);
+  border-top-color: var(--accent-blue);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
 
 .success-box {
-  margin-top: 20px;
-  padding: 20px;
-  background: #ecfdf5;
-  border: 1px solid #10b981;
-  border-radius: 10px;
+  margin-top: 16px;
+  padding: 14px 18px;
+  background: var(--status-success-bg);
+  border: 1px solid var(--status-success-border);
+  color: var(--status-success-text);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
 }
-
-
-.success-box h3 {
-  margin-top: 0;
-}
-
-
-/* =====================================================
-   Error
-===================================================== */
 
 .error-box {
-  background: #fef2f2;
-  border: 1px solid #ef4444;
-  color: #991b1b;
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 25px;
+  background: var(--status-error-bg);
+  border: 1px solid var(--status-error-border);
+  color: var(--status-error-text);
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
+  margin-top: 16px;
+  font-size: 14px;
+  font-weight: 500;
 }
 
-
 /* =====================================================
-   Answer
+   Answer Card
 ===================================================== */
-
-.answer {
-  background: #f9fafb;
-  border-left: 4px solid #111827;
-  padding: 20px;
+.answer-section {
+  border-left: 3px solid var(--brand-primary);
+  background: var(--bg-subtle);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: 20px 24px;
+  margin-top: 16px;
+  font-size: 15px;
   line-height: 1.7;
-  white-space: pre-wrap;
+  color: var(--text-primary);
 }
 
-
 /* =====================================================
-   Sources
+   Citations & Sources (Highlighted feature)
 ===================================================== */
+.sources-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 32px;
+  margin-bottom: 16px;
+}
+
+.sources-header h3 {
+  margin: 0;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.sources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
 
 .source {
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 18px;
-  margin-top: 15px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  transition: var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
+.source:hover {
+  border-color: var(--border-active);
+  box-shadow: var(--shadow-sm);
+}
 
 .source-header {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
+.source-tag {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  background: var(--bg-subtle);
+  color: var(--text-secondary);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.relevance-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent-blue);
+  background: var(--accent-blue-light);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
 
 .source p {
-  line-height: 1.6;
-  color: #4b5563;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
-
 
 .source small {
-  color: #6b7280;
+  display: block;
+  margin-top: 12px;
+  font-size: 11px;
+  color: var(--text-muted);
 }
-
 
 /* =====================================================
    Footer
 ===================================================== */
-
 footer {
   text-align: center;
-  padding: 30px;
-  color: #6b7280;
-  font-size: 14px;
+  padding: 40px 20px;
+  color: var(--text-muted);
+  font-size: 13px;
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-surface);
+  margin-top: 60px;
 }
