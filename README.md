@@ -20,9 +20,23 @@ A full-stack **Retrieval-Augmented Generation (RAG)** application that allows us
 
 ### 🖥️ Application Preview
 
-> Add your best application screenshot here.
+## 🖥️ Screenshots
 
-![Application Dashboard](screenshots/01-dashboard.png)
+### 📄 Document Upload
+
+![Document Upload](screenshots/02-document-upload.png)
+
+### 💬 AI Question Answering
+
+![Question Answering](screenshots/03-question-answer.png)
+
+### 🔎 Source Attribution
+
+![Source Attribution](screenshots/04-source-attribution.png)
+
+### ⚡ FastAPI Backend
+
+![FastAPI](screenshots/05-api-docs.png)
 
 ### 🎥 Demo Video
 
